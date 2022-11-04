@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.text.format.DateFormat
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -29,6 +30,7 @@ class CreateNotesFragment : Fragment() {
 
         binding = FragmentCreateNotesBinding.inflate(layoutInflater, container, false)
         binding.PGreen.setImageResource(R.drawable.ic_baseline_done_24)
+        setHasOptionsMenu(true)
 
         binding.PGreen.setOnClickListener {
             priority= "1"
@@ -80,4 +82,13 @@ class CreateNotesFragment : Fragment() {
         Navigation.findNavController(it!!).navigate(R.id.action_createNotesFragment_to_homeFragment)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            android.R.id.home -> {
+                activity?.onBackPressed()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 }

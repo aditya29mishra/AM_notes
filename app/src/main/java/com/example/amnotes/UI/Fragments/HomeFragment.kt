@@ -1,14 +1,16 @@
 package com.example.amnotes.UI.Fragments
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.example.amnotes.Model.Notes
 import com.example.amnotes.R
 import com.example.amnotes.UI.Adapter.NotesAdapter
@@ -34,7 +36,7 @@ class HomeFragment : Fragment() {
 
         viewModel.getNotes().observe(viewLifecycleOwner) { notesList ->
             oldMyNotes = notesList as ArrayList<Notes>
-            binding.rcvAllNotes.layoutManager= GridLayoutManager(requireContext(),2)
+            binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
             adapter = NotesAdapter(requireContext(), notesList)
             binding.rcvAllNotes.adapter = adapter
         }
@@ -42,7 +44,7 @@ class HomeFragment : Fragment() {
         binding.AllNotes.setOnClickListener {
             viewModel.getNotes().observe(viewLifecycleOwner) { notesList ->
                 oldMyNotes = notesList as ArrayList<Notes>
-                binding.rcvAllNotes.layoutManager= GridLayoutManager(requireContext(),2)
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
                 adapter = NotesAdapter(requireContext(), notesList)
                 binding.rcvAllNotes.adapter = adapter
             }
@@ -51,7 +53,7 @@ class HomeFragment : Fragment() {
         binding.filterHigh.setOnClickListener {
             viewModel.gethighNotes().observe(viewLifecycleOwner) { notesList ->
                 oldMyNotes = notesList as ArrayList<Notes>
-                binding.rcvAllNotes.layoutManager= GridLayoutManager(requireContext(),2)
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
                 adapter = NotesAdapter(requireContext(), notesList)
                 binding.rcvAllNotes.adapter = adapter
             }
@@ -60,7 +62,7 @@ class HomeFragment : Fragment() {
         binding.filterMedium.setOnClickListener {
             viewModel.getmediumNotes().observe(viewLifecycleOwner) { notesList ->
                 oldMyNotes = notesList as ArrayList<Notes>
-                binding.rcvAllNotes.layoutManager= GridLayoutManager(requireContext(),2)
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
                 adapter = NotesAdapter(requireContext(), notesList)
                 binding.rcvAllNotes.adapter = adapter
             }
@@ -69,7 +71,7 @@ class HomeFragment : Fragment() {
         binding.filterLow.setOnClickListener {
             viewModel.getlowNotes().observe(viewLifecycleOwner) { notesList ->
                 oldMyNotes = notesList as ArrayList<Notes>
-                binding.rcvAllNotes.layoutManager= GridLayoutManager(requireContext(),2)
+                binding.rcvAllNotes.layoutManager = GridLayoutManager(requireContext(), 2)
                 adapter = NotesAdapter(requireContext(), notesList)
                 binding.rcvAllNotes.adapter = adapter
             }
@@ -84,7 +86,6 @@ class HomeFragment : Fragment() {
         return binding.root
 
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.search_menu, menu)
@@ -115,6 +116,7 @@ class HomeFragment : Fragment() {
         }
         adapter.filtering(newFilteredList)
     }
+
 
 }
 

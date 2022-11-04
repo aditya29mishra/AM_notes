@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.amnotes.Model.Notes
 import com.example.amnotes.R
@@ -15,9 +17,11 @@ import com.example.amnotes.ViewModel.NotesViewModel
 import com.example.amnotes.databinding.FragmentEditNotesBinding
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import kotlinx.coroutines.flow.callbackFlow
 import java.util.*
 
 class EditNotesFragment : Fragment() {
+
 
     val oldnotes by navArgs<EditNotesFragmentArgs>()
     lateinit var binding: FragmentEditNotesBinding
@@ -34,6 +38,7 @@ class EditNotesFragment : Fragment() {
         binding.EditTitle.setText(oldnotes.data.title)
         binding.EditSubTitle.setText(oldnotes.data.subtitle)
         binding.EditNotes.setText(oldnotes.data.notes)
+
 
         when (oldnotes.data.priority) {
             "1" -> {
@@ -90,14 +95,14 @@ class EditNotesFragment : Fragment() {
     private fun updateNotes(it: View?) {
         val title = binding.EditTitle.text.toString()
         val subTitle = binding.EditSubTitle.text.toString()
-        val Notes = binding.EditNotes.text.toString()
+        val notes = binding.EditNotes.text.toString()
         val d = Date()
         val notesDate: CharSequence = DateFormat.format("MMMM d,yyyy ", d.time)
         val data = Notes(
             oldnotes.data.id,
             title = title,
             subtitle = subTitle,
-            notes = Notes,
+            notes = notes,
             date = notesDate.toString(),
             priority
         )
@@ -107,6 +112,7 @@ class EditNotesFragment : Fragment() {
 
         Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
 
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -115,6 +121,9 @@ class EditNotesFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
+
+
+
         if (item.itemId == R.id.menuDelete) {
             val bottomSheet: BottomSheetDialog =
                 BottomSheetDialog(requireContext(), R.style.BottomSheetStyle)
@@ -125,14 +134,19 @@ class EditNotesFragment : Fragment() {
 
             textViewYes?.setOnClickListener {
                 viewmodel.deleteNotes(oldnotes.data.id!!)
-                Navigation.findNavController(it!!).navigate(R.id.action_editNotesFragment_to_homeFragment)
-
+                bottomSheet.dismiss()
             }
             textViewNo?.setOnClickListener {
                 bottomSheet.dismiss()
             }
-
             bottomSheet.show()
+        }
+
+        when (item.itemId) {
+            android.R.id.home -> {
+                activity?.onBackPressed()
+                return true
+            }
         }
         return super.onOptionsItemSelected(item)
     }
