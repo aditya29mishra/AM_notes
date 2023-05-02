@@ -1,15 +1,1 @@
-import java.util.Scanner;
-class j5
-{
-public static void main(String args[])
-{
-Scanner obj=new Scanner(System.in);
-int i,n,m;
-System.out.println("Enter any Number");
-n=obj.nextInt();
-System.out.println("Table of Number is ");
-for(i=1;i<=10;i++)
-//System.out.println(n+"X"+i+" = "+n*i);
-System.out.printf("%3d X %3d = %3d\n",n,i,n*i);
-}
-}
+
